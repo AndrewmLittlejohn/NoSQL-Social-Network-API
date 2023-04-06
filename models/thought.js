@@ -8,8 +8,8 @@ const thoughtSchema = new Schema(
       len: [1,280],
     },
     createAt: {
-      type: Date,
-      default: Date.now,
+    type: Date,
+    default: Date.now,
     },
     username:{
       // (The user that created this thought)
