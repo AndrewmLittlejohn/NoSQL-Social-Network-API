@@ -12,7 +12,6 @@ const thoughtSchema = new Schema(
     default: Date.now,
     },
     username:{
-      // (The user that created this thought)
       type: String,
       required: true, 
     },

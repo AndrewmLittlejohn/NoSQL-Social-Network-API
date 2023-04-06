@@ -11,41 +11,39 @@ module.exports = {
   },
   // find single user
   getSingleUser(req, res) {
-    User.findById({ _id: req.params.userId })
-      .select('-__v')
-      .populate('friends')
-      .populate('thoughts')
+    User.findOne({ _id: req.params.userId})
+      // .select('-__v')
+      // .populate('friends')
+      // .populate('thoughts')
       .then((user) => {
         if(!user) {
-          res.status(404).json({ message: 'No user with that ID' })
+          return res.status(404).json({ message: 'No user with that ID'})
         }
-          res.json(user)
+          return res.json(user)
   })
       .catch((err) => res.status(500).json(err));
   },
   // create a new user
   createUser(req, res) {
     User.create(req.body)
-      .then((dbUserData) => res.json(dbUserData))
+      .then((User) => res.json(User))
       .catch((err) => res.status(500).json(err));
   },
   // update user
   updateUser(req, res){
-    User.findOneAndUpdate(
+    User.findByIdAndUpdate(
       {_id: req.params.userId},
       {$set: req.body},
       { runValidators: true, new: true}
     )
-    .then((user) =>
-    !user
-    ? res.status(404).json({message: 'No user with this ID'})
-    : res.status(user)
-    )
-    .catch((err) => {
-    console.log(err);
-    res.status(500).json(err);
-  });
-  },
+    .then((thought) => 
+    !thought 
+    ? res.status(404).json({message: "No thought with this ID"})
+    : res.json(thought)
+  )
+  .catch((err) => res.status(500).json(err));
+  
+   },
   // add friend
   addFriend(req, res) {
     User.findByIdAndUpdate(
